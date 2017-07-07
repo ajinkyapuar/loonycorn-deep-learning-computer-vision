@@ -12,6 +12,7 @@ import urllib
 import gzip
 import os
 import numpy as np
+import matplotlib.pyplot as plt
 
 def load_dataset():
     print "********** Started Loading Data **********"
@@ -51,3 +52,4 @@ def load_dataset():
 
 X_train, Y_train, X_test, Y_test = load_dataset()
 
+plt.show(plt.imshow(X_train[1][0]))
