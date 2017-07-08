@@ -13,12 +13,13 @@ import urllib
 import gzip
 import os
 import numpy as np
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
-import lasagne
 import theano
 import theano.tensor as T
+import lasagne
 
+############################################################################################################################
 
 def load_dataset():
     # print "********** Started Loading Data **********"
@@ -60,6 +61,8 @@ X_train, Y_train, X_test, Y_test = load_dataset()
 
 # plt.show(plt.imshow(X_train[1][0]))
 
+############################################################################################################################
+
 def build_NN(input_var=None):
     l_in = lasagne.layers.InputLayer(shape=(None, 1, 28, 28), input_var=input_var)
 
@@ -78,3 +81,24 @@ def build_NN(input_var=None):
     l_out = lasagne.layers.DenseLayer(l_hid2, num_units=10, nonlinearity=lasagne.nonlinearities.softmax)
 
     return l_out
+
+
+input_var = T.tensor4('inputs')
+target_var = T.ivector('targets')
+
+network = build_NN(input_var)
+
+prediction = lasagne.layers.get_output(network)
+
+loss = lasagne.objectives.categorical_crossentropy(prediction, target_var)
+
+loss = loss.mean()
+
+params = lasagne.layers.get_all_params(network, trainable=True)
+
+updates = lasagne.updates.nesterov_momentum(loss, params, learning_rate=0.01, momentum=0.9)
+
+train_fn = theano.function([input_var, target_var], loss, updates=updates)
+
+############################################################################################################################
+
