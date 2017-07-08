@@ -15,6 +15,10 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 
+import lasagne
+import theano
+import theano.tensor as T
+
 
 def load_dataset():
     # print "********** Started Loading Data **********"
@@ -57,4 +61,20 @@ X_train, Y_train, X_test, Y_test = load_dataset()
 # plt.show(plt.imshow(X_train[1][0]))
 
 def build_NN(input_var=None):
-    return
+    l_in = lasagne.layers.InputLayer(shape=(None, 1, 28, 28), input_var=input_var)
+
+    l_in_drop = lasagne.layers.DropoutLayer(l_in, p=0.2)
+
+    l_hid1 = lasagne.layers.DenseLayer(l_in_drop, num_units=800, nonlinearity=lasagne.nonlinearities.rectify,
+                                       W=lasagne.init.GlorotUniform())  # weights initialization
+
+    l_hid1_drop = lasagne.layers.DropoutLayer(l_hid1, p=0.5)
+
+    l_hid2 = lasagne.layers.DenseLayer(l_hid1_drop, num_units=800, nonlinearity=lasagne.nonlinearities.rectify,
+                                       W=lasagne.init.GlorotUniform())
+
+    l_hid2_drop = lasagne.layers.DropoutLayer(l_hid2, p=0.5)
+
+    l_out = lasagne.layers.DenseLayer(l_hid2, num_units=10, nonlinearity=lasagne.nonlinearities.softmax)
+
+    return l_out
