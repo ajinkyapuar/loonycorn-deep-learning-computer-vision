@@ -102,3 +102,8 @@ train_fn = theano.function([input_var, target_var], loss, updates=updates)
 
 ############################################################################################################################
 
+num_training_steps = 10
+
+for step in range(num_training_steps):
+    train_err = train_fn(X_train, Y_train)
+    print "Current Step: " + str(step)
