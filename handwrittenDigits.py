@@ -78,7 +78,7 @@ def build_NN(input_var=None):
 
     l_hid2_drop = lasagne.layers.DropoutLayer(l_hid2, p=0.5)
 
-    l_out = lasagne.layers.DenseLayer(l_hid2, num_units=10, nonlinearity=lasagne.nonlinearities.softmax)
+    l_out = lasagne.layers.DenseLayer(l_hid2_drop, num_units=10, nonlinearity=lasagne.nonlinearities.softmax)
 
     return l_out
 
