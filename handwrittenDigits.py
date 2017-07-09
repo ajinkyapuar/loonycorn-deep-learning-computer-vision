@@ -19,6 +19,7 @@ import theano
 import theano.tensor as T
 import lasagne
 
+
 ############################################################################################################################
 
 def load_dataset():
@@ -107,3 +108,17 @@ num_training_steps = 10
 for step in range(num_training_steps):
     train_err = train_fn(X_train, Y_train)
     print "Current Step: " + str(step)
+
+############################################################################################################################
+
+test_prediction = lasagne.layers.get_output(network)
+
+val_fn = theano.function([input_var], test_prediction)
+
+scores_array = val_fn([X_test[5]])
+
+print scores_array
+
+print "Max Score: " + str(max(scores_array[0]))
+
+print Y_test[5]
