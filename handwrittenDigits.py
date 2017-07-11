@@ -122,3 +122,13 @@ print scores_array
 print "Max Score: " + str(max(scores_array[0]))
 
 print Y_test[5]
+
+############################################################################################################################
+
+test_prediction = lasagne.layers.get_output(network)
+
+test_acc = T.mean(T.eq(T.argmax(test_prediction, axis=1), target_var), dtype=theano.config.floatX)
+
+acc_fn = theano.function([input_var, target_var], test_acc)
+
+print acc_fn(X_test, Y_test)
