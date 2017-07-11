@@ -125,7 +125,7 @@ print Y_test[5]
 
 ############################################################################################################################
 
-test_prediction = lasagne.layers.get_output(network)
+test_prediction = lasagne.layers.get_output(network, deterministic=True)
 
 test_acc = T.mean(T.eq(T.argmax(test_prediction, axis=1), target_var), dtype=theano.config.floatX)
 
